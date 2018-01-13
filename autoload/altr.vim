@@ -66,6 +66,27 @@ endfunction
 
 
 
+function! altr#define_contain(...)  "{{{2
+  let file = split(expand("%:r"),'/')[-1]
+  let extension = expand("%:e")
+  let keys = type(a:1) == type([]) ? a:1 : a:000
+  let patterns = []
+
+  for rule in keys
+    let file = substitute(file, rule,'','g')
+  endfor
+
+  for rule in keys
+    let pattern = file.rule.".".extension
+    let patterns = add(patterns, pattern)
+  endfor
+
+  call altr#define(patterns)
+endfunction
+
+
+
+
 function! altr#define_defaults()  "{{{2
   let vim_runtime_files = [
   \   'autoload/%.vim',
